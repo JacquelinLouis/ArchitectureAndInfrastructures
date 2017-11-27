@@ -1,20 +1,23 @@
 #!/bin/sh
 # update dependencies
 apt-get update
-echo 'Updated dependencies'
+echo '--> Updated dependencies'
 # install Node.js, confirm yes
 apt-get install nodejs -y
-echo 'Installed Node.js'
+echo '--> Installed Node.js'
 # install yarn, confirm yes
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+apt-get update
 apt-get install yarn -y
-echo 'Installed Yarn'
+echo '--> Installed Yarn'
 # clone public repository
 git clone https://github.com/JacquelinLouis/ArchitectureAndInfrastructures.git
-echo 'Cloned repository from https://github.com/JacquelinLouis/ArchitectureAndInfrastructures.git'
+echo '--> Cloned repository from https://github.com/JacquelinLouis/ArchitectureAndInfrastructures.git'
 # move to app folder
 cd ArchitectureAndInfrastructures/
 # install Node.js server's dependencies
 yarn install
-echo 'Yarn install command executed'
+echo '--> Yarn install command executed'
 # start server
 yarn start
