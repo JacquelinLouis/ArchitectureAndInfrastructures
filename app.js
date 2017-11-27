@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-const mysql = require('./mysql');
+// const mysql = require('./mysql');
 
 app.get('/', function(req, res) {
     res.send("GET response");
