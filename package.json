@@ -2,7 +2,8 @@
   "name": "Deployment_0.1",
   "version": "0.0.1",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
   },
   "scripts": {
     "start": "nodejs app.js"

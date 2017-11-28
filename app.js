@@ -5,13 +5,18 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-// const mysql = require('./mysql');
+const mysql = require('./mysql');
 
 app.get('/', function(req, res) {
-    res.send("GET response");
+    const listMessages = mysql.GetMessages();
+    res.send("GET response : " + JSON.stringify(listMessages));
 });
 
 app.post('/', function (req, res) {
+    // console.log(req.body);
+    const author = req.body.author;
+    const message = req.body.message;
+    const date = req.body.date;
     res.send("POST response");
 })
 
