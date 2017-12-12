@@ -1,5 +1,9 @@
-CREATE archi;
-USE archi;
+CREATE 'archi_db';
+USE 'archi_db';
+
+GRANT USAGE ON *.* TO user@localhost IDENTIFIED BY 'user';
+GRANT ALL PRIVILEGES ON archi_db.* TO user@localhost;
+FLUSH PRIVILEGES;
 
 CREATE TABLE user
 (
