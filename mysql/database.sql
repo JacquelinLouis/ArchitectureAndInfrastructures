@@ -1,5 +1,5 @@
-CREATE 'archi_db';
-USE 'archi_db';
+CREATE DATABASE archi_db;
+USE archi_db;
 
 GRANT USAGE ON *.* TO user@localhost IDENTIFIED BY 'user';
 GRANT ALL PRIVILEGES ON archi_db.* TO user@localhost;
