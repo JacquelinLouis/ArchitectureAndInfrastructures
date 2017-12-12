@@ -8,7 +8,7 @@ var db_config = {
   host: 'ec2-34-239-114-179.compute-1.amazonaws.com',
     user: 'user',
     password: 'user',
-    database: 'archi'
+    database: 'archi_db'
 };
 
 var connection;
