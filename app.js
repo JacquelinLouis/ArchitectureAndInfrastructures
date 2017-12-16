@@ -5,24 +5,90 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const port = 3000;
+const mysql = require('mysql');
+const db_config = mysql.createConnection({
+    host: "127.0.0.1",
+    port: "3306",
+    user: "architecte",
+    password: "infrastructure",
+    dateStrings: "date",
+    database: "todolist"
+});
+
+db_config.connect(function(err) {
+    if (err) {
+        throw err;
+    }
+    console.log('Connected to MySQL database');
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-const mysql = require('./mysql');
+var connection;
+/*
+function HandleDisconnect() {
+    connection = mysql.createConnection(db_config); // Recreate the connection, since
+    // the old one cannot be reused.
 
-app.get('/', function(req, res) {
-    const listMessages = mysql.GetMessages();
-    res.send("GET response : " + JSON.stringify(listMessages));
+    connection.connect(function(err) {              // The server is either down
+        if(err) {                                     // or restarting (takes a while sometimes).
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+        }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+    connection.on('error', function(err) {
+        console.log('db error', err);
+        if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+            handleDisconnect();                         // lost due to either server restart, or a
+        } else {                                      // connnection idle timeout (the wait_timeout
+            throw err;                                  // server variable configures this)
+        }
+    });
+};
+
+HandleDisconnect();
+*/
+function GetMessages(callback) {
+    db_config.query("SELECT * FROM Messages", function (err, results) {
+        if (err) {
+            throw err;
+        }
+        callback(err, results);
+    });
+};
+
+function AddMessage(author, message, callback) {
+    const values = {author, message};
+    connection.query("INSERT INTO messages (author, message, date) VALUES (?, NOW())", values, function (err, result) {
+        if (err){
+            console.log(err);
+            throw err;
+        }
+        callback(result);
+    });
+}
+
+app.get('/', (error, result) => {
+   result.sendFile('public/page.html', { root: __dirname })
+});
+
+app.get('/get', function(req, res) {
+    GetMessages(function(err, results) {
+        res.send("GET response : " + JSON.stringify(results));
+    });
 });
 
 // use x-www-form-urlencoded format to post data
-app.post('/', function (req, res) {
+app.post('/post', function (req, res) {
     // console.log(req.body);
     const author = req.body.author;
     const message = req.body.message;
-    mysql.AddMessage(author, message);
-    res.send("POST response");
+    AddMessage(author, message, function (result) {
+        res.send("POST response : " + JSON.stringify(result));
+    });
 })
 
 
