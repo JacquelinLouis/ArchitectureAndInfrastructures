@@ -1,6 +1,3 @@
-/**
- * Created by Louis on 27/11/2017.
- */
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -47,7 +44,7 @@ function HandleDisconnect() {
             throw err;                                  // server variable configures this)
         }
     });
-};
+}
 
 HandleDisconnect();
 
@@ -58,7 +55,7 @@ function GetMessages(callback) {
         }
         callback(err, results);
     });
-};
+}
 
 function AddMessage(author, message, callback) {
     const values = {author: author, message: message};
@@ -88,6 +85,6 @@ app.post('/post', function (req, res) {
     AddMessage(author, message, function (result) {
         res.send("POST response : " + JSON.stringify(result));
     });
-})
+});
 
 app.listen(port, function() { console.log("Server listening on port " + port) });
