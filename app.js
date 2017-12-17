@@ -1,23 +1,19 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 80;
+const port = 3000;
 const mysql = require('mysql');
+const fs = require('fs');
 
-var fs = require('fs');
-var str = "";
-fs.readFile('MySQL_IP', 'utf8', function (err, data) {
-  if (err) {
-    return console.log(err);
-  }
-	
-  console.log(data);
-	str = data;
-});
+function GetMySQLIP() {
+    return fs.readFileSync('MySQL_IP', 'utf8');
+}
+
+var str = GetMySQLIP();
+
 
 const db_config = {
-    host: "str",
-    port: "3306",
+    host: str,
     user: "user",
     password: "user",
     dateStrings: "date",
