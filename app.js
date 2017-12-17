@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 3000;
+const port = 80;
 const mysql = require('mysql');
 const db_config = {
     host: "127.0.0.1",
@@ -49,7 +49,7 @@ function HandleDisconnect() {
 HandleDisconnect();
 
 function GetMessages(callback) {
-    db_config.query("SELECT * FROM Messages", function (err, results) {
+    connection.query("SELECT * FROM Messages", function (err, results) {
         if (err) {
             throw err;
         }
@@ -68,7 +68,7 @@ function AddMessage(author, message, callback) {
 }
 
 app.get('/', function(error, result) {
-   result.sendFile('public/page.html', { root: __dirname })
+   result.sendFile('public/page_up.html', { root: __dirname })
 });
 
 app.get('/get', function(req, res) {
