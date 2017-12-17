@@ -7,12 +7,12 @@ const bodyParser = require('body-parser');
 const port = 3000;
 const mysql = require('mysql');
 const db_config = mysql.createConnection({
-    host: "127.0.0.1",
+    host: "xxxx",
     port: "3306",
-    user: "architecte",
-    password: "infrastructure",
+    user: "user",
+    password: "user",
     dateStrings: "date",
-    database: "todolist"
+    database: "TodoList"
 });
 
 db_config.connect(function(err) {
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 var connection;
-/*
+
 function HandleDisconnect() {
     connection = mysql.createConnection(db_config); // Recreate the connection, since
     // the old one cannot be reused.
@@ -50,7 +50,7 @@ function HandleDisconnect() {
 };
 
 HandleDisconnect();
-*/
+
 function GetMessages(callback) {
     db_config.query("SELECT * FROM Messages", function (err, results) {
         if (err) {
