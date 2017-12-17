@@ -61,17 +61,16 @@ function GetMessages(callback) {
 };
 
 function AddMessage(author, message, callback) {
-    const values = {author, message};
+    const values = {author: author, message: message};
     connection.query("INSERT INTO messages (author, message, date) VALUES (?, NOW())", values, function (err, result) {
         if (err){
-            console.log(err);
             throw err;
         }
         callback(result);
     });
 }
 
-app.get('/', (error, result) => {
+app.get('/', function(error, result) {
    result.sendFile('public/page.html', { root: __dirname })
 });
 
@@ -91,4 +90,4 @@ app.post('/post', function (req, res) {
     });
 })
 
-app.listen(port, () => console.log("Server listening on port " + port));
+app.listen(port, function() { console.log("Server listening on port " + port) });
