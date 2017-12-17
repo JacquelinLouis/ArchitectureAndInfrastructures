@@ -5,9 +5,13 @@ CREATE DATABASE TodoList;
 USE TodoList;
 
 # Create with PRIVILEGES new user
-GRANT USAGE ON *.* TO 'user'@'%' IDENTIFIED BY 'user';
-GRANT ALL PRIVILEGES ON archi_db.* TO 'user'@'%';
-FLUSH PRIVILEGES;
+CREATE USER 'user'@'%' IDENTIFIED BY 'user';
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'%'
+WITH GRANT OPTION;
+
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'user';
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost'
+WITH GRANT OPTION;
 
 # Create table
 CREATE TABLE Messages (

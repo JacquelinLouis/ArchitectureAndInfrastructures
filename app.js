@@ -3,22 +3,27 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = 80;
 const mysql = require('mysql');
+
+var fs = require('fs');
+var str = "";
+fs.readFile('MySQL_IP', 'utf8', function (err, data) {
+  if (err) {
+    return console.log(err);
+  }
+	
+  console.log(data);
+	str = data;
+});
+
 const db_config = {
-    host: "127.0.0.1",
+    host: "str",
     port: "3306",
     user: "user",
     password: "user",
     dateStrings: "date",
     database: "TodoList"
 };
-/*
-db_config.connect(function(err) {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to MySQL database');
-});
-*/
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
