@@ -3,6 +3,18 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = 3000;
 const mysql = require('mysql');
+
+var fs = require('fs');
+var str = "";
+fs.readFile('MySQL_IP', 'utf8', function (err, data) {
+  if (err) {
+    return console.log(err);
+  }
+	
+  console.log(data);
+	str = data;
+});
+
 const db_config = {
     host: "127.0.0.1",
     port: "3306",
