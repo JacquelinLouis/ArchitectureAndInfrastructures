@@ -1,27 +1,24 @@
-/**
- * Created by Louis on 27/11/2017.
- */
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const port = 3000;
 const mysql = require('mysql');
-const db_config = mysql.createConnection({
-    host: "xxxx",
+const db_config = {
+    host: "127.0.0.1",
     port: "3306",
     user: "user",
     password: "user",
     dateStrings: "date",
     database: "TodoList"
-});
-
+};
+/*
 db_config.connect(function(err) {
     if (err) {
         throw err;
     }
     console.log('Connected to MySQL database');
 });
-
+*/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -35,19 +32,19 @@ function HandleDisconnect() {
     connection.connect(function(err) {              // The server is either down
         if(err) {                                     // or restarting (takes a while sometimes).
             console.log('error when connecting to db:', err);
-            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+            setTimeout(HandleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
         }                                     // to avoid a hot loop, and to allow our node script to
     });                                     // process asynchronous requests in the meantime.
                                             // If you're also serving http, display a 503 error.
     connection.on('error', function(err) {
         console.log('db error', err);
         if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-            handleDisconnect();                         // lost due to either server restart, or a
+            HandleDisconnect();                         // lost due to either server restart, or a
         } else {                                      // connnection idle timeout (the wait_timeout
             throw err;                                  // server variable configures this)
         }
     });
-};
+}
 
 HandleDisconnect();
 
@@ -58,7 +55,7 @@ function GetMessages(callback) {
         }
         callback(err, results);
     });
-};
+}
 
 function AddMessage(author, message, callback) {
     const values = {author: author, message: message};
@@ -88,6 +85,6 @@ app.post('/post', function (req, res) {
     AddMessage(author, message, function (result) {
         res.send("POST response : " + JSON.stringify(result));
     });
-})
+});
 
 app.listen(port, function() { console.log("Server listening on port " + port) });
