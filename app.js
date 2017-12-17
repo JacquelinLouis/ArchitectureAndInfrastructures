@@ -76,14 +76,14 @@ app.get('/', function(error, result) {
    result.sendFile('public/page_up.html', { root: __dirname })
 });
 
-app.get('/get', function(req, res) {
+app.get('/service', function(req, res) {
     GetMessages(function(err, results) {
         res.send("GET response : " + JSON.stringify(results));
     });
 });
 
 // use x-www-form-urlencoded format to post data
-app.post('/post', function (req, res) {
+app.post('/service', function (req, res) {
     // console.log(req.body);
     const author = req.body.author;
     const message = req.body.message;
