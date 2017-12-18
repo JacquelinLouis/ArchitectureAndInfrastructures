@@ -61,7 +61,7 @@ function GetMessages(callback) {
 }
 
 function AddMessage(author, message, callback) {
-    const values = {author: author, message: message};
+    const values = [[author, message]];
     connection.query("INSERT INTO messages (author, message, date) VALUES (?, NOW())", values, function (err, result) {
         if (err){
             throw err;
