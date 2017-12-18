@@ -28,7 +28,7 @@ app.use(express.static('public'));
 
 var connection = mysql.createConnection(db_config);
 
-/*function HandleDisconnect() {
+function HandleDisconnect() {
     connection = mysql.createConnection(db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
@@ -49,7 +49,7 @@ var connection = mysql.createConnection(db_config);
     });
 }
 
-HandleDisconnect();*/
+HandleDisconnect();
 
 function GetMessages(callback) {
     connection.query("SELECT * FROM Messages", function (err, results) {
