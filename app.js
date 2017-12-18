@@ -75,8 +75,15 @@ app.get('/', function(error, result) {
 });
 
 app.get('/service', function(req, res) {
-    GetMessages(function(err, results) {
-        res.send("GET response : " + JSON.stringify(results));
+    res.setHeader("Content-Type", "application/json");
+	
+		connection.query('SELECT * FROM Messages',
+      function (err, rows, fields) {
+        if(!err) {
+          res.status(200).end(JSON.stringify(rows));
+        } else {
+          res.status(400).send(JSON.stringify(err));
+        }
     });
 });
 
