@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-var connection;
+var connection = mysql.createConnection(db_config);
 
-function HandleDisconnect() {
+/*function HandleDisconnect() {
     connection = mysql.createConnection(db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
@@ -49,7 +49,7 @@ function HandleDisconnect() {
     });
 }
 
-HandleDisconnect();
+HandleDisconnect();*/
 
 function GetMessages(callback) {
     connection.query("SELECT * FROM Messages", function (err, results) {
