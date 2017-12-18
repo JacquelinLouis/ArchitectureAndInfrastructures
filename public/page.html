@@ -21,17 +21,9 @@
                         <th>Author</th>
                         <th>message</th>
                     </tr>
-                    <tr>
-                        <td>November 27, 2017</td>
-                        <td>wqe</td>
-                        <td>qwe</td>
                     </tr>
-                    <tr>
-                        <td>November 27, 2017</td>
-                        <td>Presci</td>
-                        <td>Hello</td>
-                    </tr><tr>                     <td>November 27, 2017</td>                     <td>Jean Patrik</td>                     <td>Coucou!</td>                 </tr><tr>                     <td>November 27, 2017</td>                     <td>asd</td>                     <td>bonjour
-</td>                 </tr><tr>                     <td>November 27, 2017</td>                     <td>Flo</td>                     <td>hey</td>                 </tr><tr>                     <td>November 27, 2017</td>                     <td>guigui</td>                     <td>hello</td>                 </tr></tbody></table>
+                </tbody>
+            </table>
         </div>
         
             <div class="container">
@@ -101,16 +93,9 @@
         $.get(api_gateway_url, function(data) {
             console.log(data);
             data.forEach(function(item) {
-                date = new Date(parseInt(item['date']['N']));
-                formatted_date = `${months[date.getMonth() - 1]} ${date.getDate()}, ${date.getFullYear()}`;
-								
-								console.log(item);
-								console.log(item['author']);
-								console.log(item['message']);
-
                 // build an array of rows containing the prices
                 rows.push(`<tr> \
-                    <td>${formatted_date}</td> \
+                    <td>${item['date']}</td> \
                     <td>${item['author']}</td> \
                     <td>${item['message']}</td> \
                 </tr>`);
