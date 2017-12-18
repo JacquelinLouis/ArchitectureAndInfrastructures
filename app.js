@@ -9,7 +9,7 @@ function GetMySQLIP() {
     return fs.readFileSync('MySQL_IP', 'utf8');
 }
 
-var str = GetMySQLIP();
+var str = GetMySQLIP().replace(/(\r\n|\n|\r)/gm, "");
 
 
 const db_config = {
