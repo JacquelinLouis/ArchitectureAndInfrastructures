@@ -53,9 +53,6 @@ HandleDisconnect();
 
 function GetMessages(callback) {
     connection.query("SELECT * FROM Messages", function (err, results) {
-        if (err) {
-            throw err;
-        }
         callback(err, results);
     });
 }
@@ -63,10 +60,7 @@ function GetMessages(callback) {
 function AddMessage(author, message, callback) {
     const values = [[author, message]];
     connection.query("INSERT INTO messages (author, message, date) VALUES (?, NOW())", values, function (err, result) {
-        if (err){
-            throw err;
-        }
-        callback(result);
+        callback(err, result);
     });
 }
 
@@ -79,11 +73,7 @@ app.get('/service', function(req, res) {
 	
 		connection.query('SELECT * FROM Messages',
       function (err, rows, fields) {
-        if(!err) {
-          res.status(200).end(JSON.stringify(rows));
-        } else {
-          res.status(400).send(JSON.stringify(err));
-        }
+        res.status(200).end(JSON.stringify(!err ? rows : err));
     });
 });
 
@@ -92,8 +82,8 @@ app.post('/service', function (req, res) {
     // console.log(req.body);
     const author = req.body.author;
     const message = req.body.message;
-    AddMessage(author, message, function (result) {
-        res.send("POST response : " + JSON.stringify(result));
+    AddMessage(author, message, function (err, result) {
+        res.send("POST response : " + JSON.stringify(err ? err : result));
     });
 });
 
