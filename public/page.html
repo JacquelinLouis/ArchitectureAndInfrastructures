@@ -73,9 +73,6 @@
     $.ajax({
         url: "https://6253wk029h.execute-api.eu-west-2.amazonaws.com/prod",
         method: "POST",
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: "application/json",
@@ -101,33 +98,23 @@
         var months = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"];
         var rows = [];
 
-        $.ajax({
-            url: "https://6253wk029h.execute-api.eu-west-2.amazonaws.com/prod",
-                method: "POST",
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function(data,status,jqXHR ){
-                console.log(data);
-                data.forEach(function(item) {
-                    date = new Date(parseInt(item['date']['N']));
-                    formatted_date = `${months[date.getMonth() - 1]} ${date.getDate()}, ${date.getFullYear()}`;
+        $.get(api_gateway_url, function(data) {
+            console.log(data);
+            data.forEach(function(item) {
+                date = new Date(parseInt(item['date']['N']));
+                formatted_date = `${months[date.getMonth() - 1]} ${date.getDate()}, ${date.getFullYear()}`;
 
-                    // build an array of rows containing the prices
-                    rows.push(`<tr> \
-                            <td>${formatted_date}</td> \
-                            <td>${item['author']['S']}</td> \
-                            <td>${item['message']['S']}</td> \
-                        </tr>`);
-                });
-                // show the now filled table and hide the "loading" message
-                $('table.table').append(rows.join()).show();
-                $('#loading').hide();
-            },
-            error(jqXHR, textStatus, errorThrown){
-                //Do something
-                alert(textStatus);
-            }
+                // build an array of rows containing the prices
+                rows.push(`<tr> \
+                    <td>${formatted_date}</td> \
+                    <td>${item['author']['S']}</td> \
+                    <td>${item['message']['S']}</td> \
+                </tr>`);
+            });
+
+            // show the now filled table and hide the "loading" message
+            $('table.table').append(rows.join()).show();
+            $('#loading').hide();
         });
     });
     </script>
