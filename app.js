@@ -20,6 +20,8 @@ const db_config = {
     database: "TodoList"
 };
 
+fs.writeFileSync('TEST', db_config.host);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
